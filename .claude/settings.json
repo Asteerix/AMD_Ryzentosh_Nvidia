@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fd*)",
+      "Bash(git checkout .)",
+      "Bash(git checkout --*)",
+      "Bash(git restore .)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(rm -rf $HOME*)",
+      "Bash(npm publish*)",
+      "Bash(yarn publish*)",
+      "Bash(pnpm publish*)",
+      "Bash(bun publish*)",
+      "Bash(docker push*)",
+      "Bash(gcloud * delete*)",
+      "Bash(aws * delete*)",
+      "Bash(prisma migrate reset*)",
+      "Bash(npx prisma migrate reset*)",
+      "Bash(bunx prisma migrate reset*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)",
+      "Read(./secrets/**)",
+      "Read(./**/secrets/**)",
+      "Read(./**/credentials.json)",
+      "Read(./**/service-account.json)",
+      "Read(./**/serviceAccount*.json)",
+      "Read(./**/google-services.json)",
+      "Read(./**/GoogleService-Info.plist)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./**/*.p12)",
+      "Read(./**/.npmrc)",
+      "Read(./**/.pypirc)",
+      "Read(./**/id_rsa)",
+      "Read(./**/id_ed25519)",
+      "Bash(git push --force:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fd:*)",
+      "Bash(git clean -fdx:*)",
+      "Bash(git checkout --:*)",
+      "Bash(git branch -D:*)",
+      "Bash(git tag -d:*)",
+      "Bash(git filter-repo:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(rm -rf /usr*)",
+      "Bash(rm -rf /etc*)",
+      "Bash(rm -rf /var*)",
+      "Bash(sudo rm:*)",
+      "Bash(sudo chmod:*)",
+      "Bash(chmod 777:*)",
+      "Bash(npm publish:*)",
+      "Bash(yarn publish:*)",
+      "Bash(pnpm publish:*)",
+      "Bash(bun publish:*)",
+      "Bash(dart pub publish:*)",
+      "Bash(flutter pub publish:*)",
+      "Bash(cargo publish:*)",
+      "Bash(twine upload:*)",
+      "Bash(uv publish:*)",
+      "Bash(docker push:*)",
+      "Bash(docker login:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh release delete:*)",
+      "Bash(gcloud * delete:*)",
+      "Bash(aws * delete:*)",
+      "Bash(prisma migrate reset:*)",
+      "Bash(npx prisma migrate reset:*)",
+      "Bash(bunx prisma migrate reset:*)",
+      "Bash(pnpm prisma migrate reset:*)",
+      "Bash(yarn prisma migrate reset:*)",
+      "Bash(dropdb:*)",
+      "Bash(psql * -c DROP:*)"
+    ]
+  },
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command // \"\"' | grep -qiE '(rm -rf /(etc|usr|var|home|root|boot|bin|sbin|System|Library|Volumes|Users)\\b|DROP TABLE|TRUNCATE TABLE|DROP DATABASE|DROP SCHEMA)' && { echo 'Pattern destructif bloqu\u00e9' >&2; exit 2; } || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

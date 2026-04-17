@@ -6,3 +6,4 @@
 # Build artifacts
 build/
 dist/
+.claude/settings.local.json
